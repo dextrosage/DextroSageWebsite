@@ -1,8 +1,31 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { createPortal } from 'react-dom';
 import { formatDistanceToNow } from 'date-fns';
-import { Edit, Trash2, Megaphone } from 'lucide-react';
+import { Edit, Trash2, Megaphone, X } from 'lucide-react';
 import type { Announcement } from '../types';
 import { useAuth } from '../contexts/AuthContext';
+
+const renderContentWithLinks = (text: string) => {
+  if (!text) return null;
+  const urlRegex = /(https?:\/\/[^\s]+)/g;
+  const parts = text.split(urlRegex);
+  return parts.map((part, index) => {
+    if (urlRegex.test(part)) {
+      return (
+        <a 
+          key={index} 
+          href={part} 
+          target="_blank" 
+          rel="noopener noreferrer" 
+          className="text-blue-400 hover:text-blue-300 hover:underline break-all font-medium transition-colors"
+        >
+          {part}
+        </a>
+      );
+    }
+    return part;
+  });
+};
 
 interface Props {
   announcement: Announcement;
@@ -12,6 +35,7 @@ interface Props {
 
 export const AnnouncementCard: React.FC<Props> = ({ announcement, onEdit, onDelete }) => {
   const { role } = useAuth();
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
   
   // Can only edit if ADMIN or SADMIN. 
   // We assume role is checked securely in backend, but frontend hides buttons.
@@ -46,14 +70,14 @@ export const AnnouncementCard: React.FC<Props> = ({ announcement, onEdit, onDele
               <button 
                 onClick={() => onEdit(announcement)}
                 className="p-2 text-gray-400 hover:text-white hover:bg-white/10 rounded-full transition-colors"
-                title="Edit Announcement"
+                title="Edit Newsroom Post"
               >
                 <Edit className="w-4 h-4" />
               </button>
               <button 
                 onClick={() => onDelete(announcement.id)}
                 className="p-2 text-gray-400 hover:text-red-400 hover:bg-red-500/10 rounded-full transition-colors"
-                title="Delete Announcement"
+                title="Delete Newsroom Post"
               >
                 <Trash2 className="w-4 h-4" />
               </button>
@@ -83,12 +107,55 @@ export const AnnouncementCard: React.FC<Props> = ({ announcement, onEdit, onDele
             </div>
           )}
 
+          {announcement.image_links && announcement.image_links.length > 0 && (
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+              {announcement.image_links.map((link, idx) => (
+                <div 
+                  key={idx} 
+                  className="relative w-full aspect-video rounded-xl overflow-hidden border border-white/10 shadow-lg bg-black/40 flex items-center justify-center cursor-zoom-in hover:scale-[1.02] transition-transform duration-300 animate-fade-in"
+                  onClick={() => setSelectedImage(link)}
+                >
+                  <img
+                    src={link}
+                    alt={`Announcement attachment ${idx + 1}`}
+                    className="w-full h-full object-cover animate-fade-in"
+                    loading="lazy"
+                  />
+                </div>
+              ))}
+            </div>
+          )}
+
           <div className="text-gray-300 whitespace-pre-wrap break-words text-sm sm:text-base leading-relaxed">
-            {announcement.content}
+            {renderContentWithLinks(announcement.content)}
           </div>
         </div>
 
       </div>
+
+      {/* Lightbox Pop-up Modal */}
+      {selectedImage && createPortal(
+        <div 
+          className="fixed inset-0 z-[9999] bg-black/95 backdrop-blur-md flex items-center justify-center p-4 cursor-zoom-out transition-all duration-300"
+          onClick={() => setSelectedImage(null)}
+        >
+          <div className="relative max-w-5xl max-h-[90vh] flex flex-col items-center justify-center">
+            <button 
+              className="absolute top-[-48px] right-0 text-white/70 hover:text-white transition-colors bg-white/10 hover:bg-white/20 p-2.5 rounded-full transition-all focus:outline-none"
+              onClick={() => setSelectedImage(null)}
+            >
+              <X className="w-5 h-5" />
+            </button>
+            <img
+              src={selectedImage}
+              alt="Enlarged view"
+              className="max-w-full max-h-[85vh] object-contain rounded-lg shadow-2xl cursor-default animate-zoom-in"
+              onClick={(e) => e.stopPropagation()}
+            />
+          </div>
+        </div>,
+        document.body
+      )}
     </div>
   );
 };

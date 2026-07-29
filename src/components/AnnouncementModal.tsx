@@ -6,7 +6,7 @@ import type { Announcement } from '../types';
 interface Props {
   isOpen: boolean;
   onClose: () => void;
-  onSubmit: (title: string, content: string, videoLinks: string[]) => Promise<void>;
+  onSubmit: (title: string, content: string, videoLinks: string[], imageLinks: string[]) => Promise<void>;
   initialData?: Announcement | null;
   isLoading?: boolean;
 }
@@ -37,6 +37,31 @@ const getEmbedUrl = (url: string): string => {
   return url;
 };
 
+const getGoogleDriveDirectLink = (url: string): string => {
+  if (!url) return '';
+  
+  let fileId = '';
+  
+  if (url.includes('/file/d/')) {
+    const parts = url.split('/file/d/');
+    if (parts[1]) {
+      fileId = parts[1].split('/')[0];
+    }
+  } else if (url.includes('id=')) {
+    const reg = /[?&]id=([^&#]+)/;
+    const match = url.match(reg);
+    if (match && match[1]) {
+      fileId = match[1];
+    }
+  }
+  
+  if (fileId) {
+    return `https://lh3.googleusercontent.com/d/${fileId}`;
+  }
+  
+  return url;
+};
+
 export const AnnouncementModal: React.FC<Props> = ({ 
   isOpen, 
   onClose, 
@@ -47,7 +72,9 @@ export const AnnouncementModal: React.FC<Props> = ({
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [videoLinks, setVideoLinks] = useState<string[]>([]);
+  const [imageLinks, setImageLinks] = useState<string[]>([]);
   const [newLink, setNewLink] = useState('');
+  const [newImageLink, setNewImageLink] = useState('');
 
   useEffect(() => {
     if (isOpen) {
@@ -55,19 +82,22 @@ export const AnnouncementModal: React.FC<Props> = ({
         setTitle(initialData.title);
         setContent(initialData.content);
         setVideoLinks(initialData.video_links || []);
+        setImageLinks(initialData.image_links || []);
       } else {
         setTitle('');
         setContent('');
         setVideoLinks([]);
+        setImageLinks([]);
       }
       setNewLink('');
+      setNewImageLink('');
     }
   }, [isOpen, initialData]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!title.trim() || !content.trim()) return;
-    await onSubmit(title.trim(), content.trim(), videoLinks);
+    await onSubmit(title.trim(), content.trim(), videoLinks, imageLinks);
   };
 
   const handleAddLink = () => {
@@ -83,17 +113,30 @@ export const AnnouncementModal: React.FC<Props> = ({
     setVideoLinks(videoLinks.filter((_, i) => i !== index));
   };
 
+  const handleAddImageLink = () => {
+    if (!newImageLink.trim()) return;
+    const directUrl = getGoogleDriveDirectLink(newImageLink.trim());
+    if (directUrl && !imageLinks.includes(directUrl)) {
+      setImageLinks([...imageLinks, directUrl]);
+    }
+    setNewImageLink('');
+  };
+
+  const handleRemoveImageLink = (index: number) => {
+    setImageLinks(imageLinks.filter((_, i) => i !== index));
+  };
+
   return (
     <Modal
       isOpen={isOpen}
       onClose={onClose}
-      title={initialData ? "Edit Announcement" : "Create Announcement"}
+      title={initialData ? "Edit Newsroom Post" : "Create Newsroom Post"}
       showFooter={false}
     >
       <form onSubmit={handleSubmit} className="space-y-5">
         <div>
           <label className="block text-xs font-semibold text-gray-400 uppercase tracking-widest mb-2">
-            Announcement Title
+            Newsroom Post Title
           </label>
           <input
             type="text"
@@ -149,13 +192,53 @@ export const AnnouncementModal: React.FC<Props> = ({
 
         <div>
           <label className="block text-xs font-semibold text-gray-400 uppercase tracking-widest mb-2">
+            Google Drive Image Links
+          </label>
+          <div className="flex gap-2">
+            <input
+              type="url"
+              value={newImageLink}
+              onChange={(e) => setNewImageLink(e.target.value)}
+              className="flex-grow bg-white/5 border border-white/10 text-white text-sm rounded-lg focus:ring-1 focus:ring-blue-500/50 focus:border-blue-500/50 block p-3 transition-colors outline-none"
+              placeholder="e.g. https://drive.google.com/file/d/FILE_ID/view"
+              disabled={isLoading}
+            />
+            <Button
+              type="button"
+              variant="outline"
+              onClick={handleAddImageLink}
+              disabled={!newImageLink.trim() || isLoading}
+            >
+              Add Image
+            </Button>
+          </div>
+          {imageLinks.length > 0 && (
+            <div className="mt-3 space-y-2 max-h-32 overflow-y-auto bg-black/20 border border-white/5 rounded-lg p-2">
+              {imageLinks.map((link, idx) => (
+                <div key={idx} className="flex items-center justify-between bg-white/5 border border-white/10 rounded-md px-3 py-1.5 text-xs text-blue-400 font-mono">
+                  <span className="truncate max-w-[260px]" title={link}>{link}</span>
+                  <button
+                    type="button"
+                    onClick={() => handleRemoveImageLink(idx)}
+                    className="text-red-400 hover:text-red-300 transition-colors ml-2 font-sans font-bold"
+                  >
+                    Remove
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+        <div>
+          <label className="block text-xs font-semibold text-gray-400 uppercase tracking-widest mb-2">
             Detailed Content
           </label>
           <textarea
             value={content}
             onChange={(e) => setContent(e.target.value)}
             className="w-full bg-white/5 border border-white/10 text-white text-sm rounded-lg focus:ring-1 focus:ring-blue-500/50 focus:border-blue-500/50 block p-3 transition-colors outline-none min-h-[200px] resize-y"
-            placeholder="Type your announcement content here... You can use multiple lines and spacing."
+            placeholder="Type your newsroom post content here... You can use multiple lines and spacing."
             required
             maxLength={50000}
             disabled={isLoading}
@@ -177,7 +260,7 @@ export const AnnouncementModal: React.FC<Props> = ({
             isLoading={isLoading}
             disabled={!title.trim() || !content.trim() || isLoading}
           >
-            {initialData ? 'Save Changes' : 'Post Announcement'}
+            {initialData ? 'Save Changes' : 'Publish Post'}
           </Button>
         </div>
       </form>

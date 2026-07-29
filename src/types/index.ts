@@ -49,4 +49,5 @@ export interface Announcement {
   created_at: string;
   updated_at: string;
   video_links: string[];
+  image_links: string[];
 }

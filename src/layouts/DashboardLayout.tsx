@@ -43,7 +43,7 @@ export const DashboardLayout: React.FC = () => {
       end: false
     },
     {
-      name: 'Announcements',
+      name: 'Newsroom',
       path: role === 'SADMIN' ? '/sadmin/announcements' : (role === 'ADMIN' ? '/admin/announcements' : '/user/announcements'),
       icon: <Bell className="w-5 h-5" />,
       end: false

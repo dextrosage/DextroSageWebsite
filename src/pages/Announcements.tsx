@@ -77,20 +77,20 @@ export const Announcements: React.FC = () => {
     setIsModalOpen(true);
   };
 
-  const handleSubmit = async (title: string, content: string, videoLinks: string[]) => {
+  const handleSubmit = async (title: string, content: string, videoLinks: string[], imageLinks: string[]) => {
     setIsSubmitting(true);
     try {
       if (editingAnnouncement) {
-        await announcementService.updateAnnouncement(editingAnnouncement.id, title, content, videoLinks);
-        showSuccess('Announcement updated successfully', 'Success');
+        await announcementService.updateAnnouncement(editingAnnouncement.id, title, content, videoLinks, imageLinks);
+        showSuccess('Newsroom post updated successfully', 'Success');
       } else {
-        await announcementService.createAnnouncement(title, content, videoLinks);
-        showSuccess('Announcement published successfully', 'Success');
+        await announcementService.createAnnouncement(title, content, videoLinks, imageLinks);
+        showSuccess('Newsroom post published successfully', 'Success');
       }
       setIsModalOpen(false);
       fetchAnnouncements(true, true);
     } catch (err) {
-      showApiError(err, editingAnnouncement ? 'Failed to update announcement' : 'Failed to publish announcement');
+      showApiError(err, editingAnnouncement ? 'Failed to update newsroom post' : 'Failed to publish newsroom post');
     } finally {
       setIsSubmitting(false);
     }
@@ -106,12 +106,12 @@ export const Announcements: React.FC = () => {
     setIsDeleting(true);
     try {
       await announcementService.deleteAnnouncement(announcementToDelete);
-      showSuccess('Announcement deleted successfully', 'Success');
+      showSuccess('Newsroom post deleted successfully', 'Success');
       setDeleteModalOpen(false);
       setAnnouncementToDelete(null);
       fetchAnnouncements(true, true);
     } catch (err) {
-      showApiError(err, 'Failed to delete announcement');
+      showApiError(err, 'Failed to delete newsroom post');
     } finally {
       setIsDeleting(false);
     }
@@ -125,7 +125,7 @@ export const Announcements: React.FC = () => {
         <div>
           <h2 className="text-2xl font-bold text-white tracking-[0.1em] uppercase flex items-center">
             <Radio className="w-6 h-6 mr-3 text-blue-400 animate-pulse" />
-            Announcements
+            Newsroom
           </h2>
           <p className="text-sm text-gray-400 mt-2">
             Stay updated with the latest news, updates, and releases from the DextroSage team.
@@ -155,7 +155,7 @@ export const Announcements: React.FC = () => {
             <PlusCircle className="w-5 h-5 text-blue-400" />
           </div>
           <div className="flex-grow bg-black/20 border border-white/5 rounded-full py-3 px-6 text-gray-400 text-sm font-medium">
-            Start a new announcement...
+            Start a new post in newsroom...
           </div>
         </div>
       )}
@@ -164,12 +164,12 @@ export const Announcements: React.FC = () => {
       <div className="space-y-6">
         {isLoading ? (
           <div className="py-24">
-            <Loader size="lg" text="Loading announcements feed..." />
+            <Loader size="lg" text="Loading newsroom feed..." />
           </div>
         ) : announcements.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-24 bg-white/5 border border-white/10 rounded-2xl text-center backdrop-blur-sm">
             <Radio className="w-12 h-12 text-gray-500 mb-4 opacity-50" />
-            <h3 className="text-lg font-semibold text-white">No announcements yet</h3>
+            <h3 className="text-lg font-semibold text-white">No newsroom posts yet</h3>
             <p className="text-sm text-gray-400 mt-2 max-w-sm">
               Check back later for updates, news, and official statements from the team.
             </p>
@@ -214,14 +214,14 @@ export const Announcements: React.FC = () => {
           <Modal
             isOpen={deleteModalOpen}
             onClose={() => !isDeleting && setDeleteModalOpen(false)}
-            title="Delete Announcement?"
+            title="Delete Newsroom Post?"
             confirmText="Delete"
             onConfirm={confirmDelete}
             isLoading={isDeleting}
             variant="danger"
           >
             <p className="text-sm text-gray-400">
-              Are you sure you want to permanently delete this announcement? 
+              Are you sure you want to permanently delete this newsroom post? 
               This action cannot be undone and it will be immediately removed from the feed for all users.
             </p>
           </Modal>
