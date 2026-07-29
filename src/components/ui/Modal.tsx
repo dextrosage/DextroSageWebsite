@@ -12,6 +12,7 @@ interface ModalProps {
   onConfirm?: () => void;
   isLoading?: boolean;
   variant?: 'primary' | 'danger';
+  showFooter?: boolean;
 }
 
 export const Modal: React.FC<ModalProps> = ({
@@ -24,6 +25,7 @@ export const Modal: React.FC<ModalProps> = ({
   onConfirm,
   isLoading = false,
   variant = 'primary',
+  showFooter = true,
 }) => {
   // Prevent body scrolling when modal is open
   useEffect(() => {
@@ -68,25 +70,26 @@ export const Modal: React.FC<ModalProps> = ({
             <div className="text-sm text-gray-400">{children}</div>
           </div>
 
-          {/* Actions */}
-          <div className="px-6 py-4 bg-black/40 border-t border-white/5 flex items-center justify-end space-x-3">
-            <Button
-              variant="secondary"
-              onClick={onClose}
-              disabled={isLoading}
-            >
-              {cancelText}
-            </Button>
-            {onConfirm && (
+          {showFooter && (
+            <div className="px-6 py-4 bg-black/40 border-t border-white/5 flex items-center justify-end space-x-3">
               <Button
-                variant={variant}
-                onClick={onConfirm}
-                isLoading={isLoading}
+                variant="secondary"
+                onClick={onClose}
+                disabled={isLoading}
               >
-                {confirmText}
+                {cancelText}
               </Button>
-            )}
-          </div>
+              {onConfirm && (
+                <Button
+                  variant={variant}
+                  onClick={onConfirm}
+                  isLoading={isLoading}
+                >
+                  {confirmText}
+                </Button>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </div>

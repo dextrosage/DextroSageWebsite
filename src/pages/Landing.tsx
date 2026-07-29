@@ -1,10 +1,8 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { useNavigate } from 'react-router-dom';
 import { ArrowRight, Shield, Cpu, Code2, Monitor } from 'lucide-react';
 
 export const Landing: React.FC = () => {
-  const navigate = useNavigate();
 
   return (
     <div className="w-full flex flex-col font-sans">
@@ -28,21 +26,15 @@ export const Landing: React.FC = () => {
               transition={{ delay: 0.4 }}
               className="flex flex-row items-center justify-start gap-3 sm:gap-4 mt-8"
             >
-              <button
-                onClick={() => navigate('/login')}
-                className="px-5 py-3 sm:px-6 sm:py-4 text-[14px] sm:text-[15px] font-bold bg-white text-black hover:bg-gray-200 rounded-xl transition-all flex items-center justify-between"
+              <a
+                href="#services"
+                className="px-6 py-4 text-[15px] font-bold bg-white text-black hover:bg-gray-200 rounded-xl transition-all flex items-center justify-between"
               >
-                Get Started 
+                Learn More
                 <div className="bg-black text-white rounded-full p-1 ml-2">
                   <ArrowRight size={14} strokeWidth={3} />
                 </div>
-              </button>
-                <a
-                  href="#services"
-                  className="px-5 py-3 sm:px-6 sm:py-4 text-[14px] sm:text-[15px] font-medium text-white bg-white/10 hover:bg-white/20 backdrop-blur-md rounded-xl border border-white/10 transition-all text-center"
-                >
-                  Learn More
-                </a>
+              </a>
             </motion.div>
           </div>
           <div className="flex-1 hidden lg:block"></div>
@@ -85,16 +77,6 @@ export const Landing: React.FC = () => {
                 We engineer resilient systems for the modern enterprise.
               </h2>
             </div>
-            
-            <div className="pt-4 lg:pr-8 hidden md:block">
-              <button
-                onClick={() => navigate('/login')}
-                className="px-10 py-5 rounded-2xl bg-black text-white flex items-center justify-center hover:scale-105 transition-all shadow-[0_16px_48px_rgba(0,0,0,0.15)] group"
-              >
-                <span className="text-[18px] font-semibold mr-3">Get Started</span>
-                <ArrowRight size={20} strokeWidth={2.5} className="group-hover:translate-x-1 transition-transform" />
-              </button>
-            </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -124,7 +106,7 @@ export const Landing: React.FC = () => {
 
 
       {/* 5. OUR APPROACH */}
-      <section className="pt-16 lg:pt-24 pb-32 lg:pb-48 bg-[#FAFAFA] text-black z-20 relative">
+      <section className="pt-16 lg:pt-24 pb-32 lg:pb-48 bg-[#FAFAFA] text-black z-20 relative rounded-b-[48px]">
         <div className="max-w-7xl mx-auto px-8 lg:px-12">
           <div className="text-sm font-extrabold text-blue-600 uppercase tracking-tight mb-12">Our Approach</div>
           <h2 className="text-[48px] lg:text-[64px] font-[300] leading-[1.2] tracking-tighter mb-24 lg:w-[55%]">
@@ -282,12 +264,6 @@ export const Landing: React.FC = () => {
             <p className="text-[15px] lg:text-[16px] text-white/70 leading-[1.8] mb-12 max-w-md">
               DextroSage is a founder-led engineering collective focused on AI, IoT, Cybersecurity, Cloud, and Software Architecture. We value quality, transparency, continuous learning, and modern engineering over inflated numbers.
             </p>
-              <a
-                href="#work"
-                className="inline-block px-8 py-4 rounded-full bg-white text-black font-[600] text-[16px] hover:scale-105 hover:bg-gray-200 transition-all shadow-[0_8px_24px_rgba(255,255,255,0.15)]"
-              >
-                Get Started
-              </a>
           </div>
 
           {/* Right Side: Floating Staggered Cards */}
@@ -371,43 +347,6 @@ export const Landing: React.FC = () => {
       </section>
 
 
-
-      {/* 8. MEET THE TEAM */}
-      <section id="about" className="py-32 lg:py-48 bg-[#FAFAFA] text-black z-20 relative rounded-b-[48px]">
-        <div className="max-w-7xl mx-auto px-8 lg:px-12">
-          <div className="flex flex-col lg:flex-row justify-between items-end mb-24 gap-12">
-            <div className="lg:w-[55%]">
-              <h2 className="text-[48px] lg:text-[64px] font-[300] tracking-tight mb-12">Meet the Team.</h2>
-              <div className="text-sm font-extrabold text-gray-400 uppercase tracking-tight mb-6">Founders</div>
-              <p className="text-gray-500 text-[18px] leading-relaxed max-w-md">
-                Our team at DextroSage is dedicated to delivering excellence in Custom AI & IoT, Cybersecurity & Cloud.
-              </p>
-            </div>
-          </div>
-
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-             {[
-               { name: "John Doe", title: "General Partner", img: "https://api.dicebear.com/7.x/avataaars/svg?seed=John" },
-               { name: "Mike Doe", title: "General Partner", img: "https://api.dicebear.com/7.x/avataaars/svg?seed=Mike" }
-             ].map((founder, i) => (
-               <div key={i} className="bg-white p-8 rounded-[32px] shadow-[0_4px_24px_rgba(0,0,0,0.02)] flex flex-col items-center group cursor-pointer hover:shadow-[0_12px_48px_rgba(0,0,0,0.06)] transition-all">
-                 <div className="w-full h-[320px] bg-[#FAFAFA] rounded-[24px] mb-8 overflow-hidden flex items-center justify-center">
-                    <img src={founder.img} alt={founder.name} className="w-56 h-56 opacity-80 group-hover:scale-110 transition-transform duration-500" />
-                 </div>
-                 <div className="w-full flex justify-between items-center px-4">
-                   <div>
-                     <h3 className="text-[28px] font-bold tracking-tight mb-2">{founder.name}</h3>
-                     <p className="text-gray-500 text-[16px]">{founder.title}</p>
-                   </div>
-                   <ArrowRight className="text-gray-300 group-hover:text-black transition-colors w-8 h-8" />
-                 </div>
-               </div>
-             ))}
-          </div>
-        </div>
-      </section>
-
       {/* 9. CTA & FOOTER */}
       <section id="contact" className="py-32 lg:py-48 bg-transparent text-white z-10 relative flex flex-col justify-between min-h-screen">
         <div className="max-w-7xl mx-auto px-8 lg:px-12 w-full text-center flex-1 flex flex-col justify-center items-center">
@@ -417,12 +356,12 @@ export const Landing: React.FC = () => {
           <p className="text-[18px] lg:text-[20px] text-white/70 max-w-xl mx-auto leading-[1.6] mb-16">
             We only take on a select number of engineering partnerships per quarter. Let's discuss your architecture.
           </p>
-          <button
-            onClick={() => navigate('/login')}
+          <a
+            href="mailto:dextrosage.support@gmail.com?subject=DextroSage%20Partnership%20Inquiry"
             className="px-12 py-5 text-[16px] font-bold bg-white text-black hover:bg-gray-200 rounded-full transition-all flex items-center gap-3 shadow-[0_0_40px_rgba(255,255,255,0.2)]"
           >
-            Get Started <ArrowRight size={20} strokeWidth={2.5} />
-          </button>
+            Contact Us <ArrowRight size={20} strokeWidth={2.5} />
+          </a>
         </div>
 
         <footer className="max-w-7xl mx-auto px-8 lg:px-12 w-full pt-48 border-t border-white/10 mt-auto flex flex-col md:flex-row justify-between items-start gap-16">
@@ -444,7 +383,6 @@ export const Landing: React.FC = () => {
               <h4 className="text-white font-bold text-[16px] mb-6">Discover</h4>
               <ul className="space-y-4 text-gray-400 text-[15px]">
                 <li><a href="#hero" className="hover:text-white transition-colors">Home</a></li>
-                <li><a href="#about" className="hover:text-white transition-colors">About</a></li>
                 <li><a href="#services" className="hover:text-white transition-colors">Services</a></li>
                 <li><a href="#work" className="hover:text-white transition-colors">Work</a></li>
               </ul>

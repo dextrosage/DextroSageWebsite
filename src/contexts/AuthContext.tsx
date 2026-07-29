@@ -130,8 +130,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   // Handle auto login check on mount
   useEffect(() => {
     refreshProfile();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-    // Listen to token refresh failures (dispatched from api.ts)
+  // Listen to token refresh failures (dispatched from api.ts)
+  useEffect(() => {
     const handleLogoutEvent = () => {
       showError('Your session has expired. Please log in again.', 'Unauthorized');
       clearAuthState();
@@ -141,7 +144,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return () => {
       window.removeEventListener('auth_logout_redirect', handleLogoutEvent);
     };
-  }, [refreshProfile, clearAuthState, showError]);
+  }, [clearAuthState, showError]);
 
   const login = async (data: LoginRequest): Promise<{ role: UserRole; phoneRequired: boolean; profileRequired: boolean; pwdChangeRequired: boolean }> => {
     setIsLoading(true);

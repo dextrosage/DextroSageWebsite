@@ -9,7 +9,7 @@ import { Loader } from '../../components/ui/Loader';
 import { Button } from '../../components/ui/Button';
 import { Modal } from '../../components/ui/Modal';
 import { DeveloperProfileView } from '../../components/DeveloperProfileView';
-import { User, Mail, Phone, Key, ShieldAlert, Trash2, LogOut, UserX } from 'lucide-react';
+import { User, Mail, Phone, Key, Trash2, UserX } from 'lucide-react';
 
 export const UserProfile: React.FC = () => {
   const { user, logout, decodedTokenInfo } = useAuth();
@@ -23,9 +23,6 @@ export const UserProfile: React.FC = () => {
   const [showDevProfile, setShowDevProfile] = useState(false);
   const [isLoadingProfile, setIsLoadingProfile] = useState(false);
 
-  // Loading States for Actions
-  const [isLoggingOut, setIsLoggingOut] = useState(false);
-  
   // Deletion Modals & Loading States
   const [deleteSessionModal, setDeleteSessionModal] = useState(false);
   const [sessionToDelete, setSessionToDelete] = useState<string | null>(null);
@@ -70,17 +67,7 @@ export const UserProfile: React.FC = () => {
 
 
 
-  // Handle Logout
-  const handleLogout = async () => {
-    setIsLoggingOut(true);
-    try {
-      await logout();
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setIsLoggingOut(false);
-    }
-  };
+
 
   // Handle Delete Single Session
   const triggerDeleteSession = (sessionId: string) => {
@@ -170,13 +157,13 @@ export const UserProfile: React.FC = () => {
       <div>
         <h2 className="text-xl font-bold text-white tracking-[0.1em] uppercase">Profile & Sessions</h2>
         <p className="text-xs text-gray-400 mt-1">
-          Manage your account profile, active login sessions, and diagnostic JWT tokens.
+          Manage your account profile and active login sessions.
         </p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="space-y-6">
         {/* Left Columns: Profile details and Sessions */}
-        <div className="lg:col-span-2 space-y-6">
+        <div className="space-y-6">
           {/* Profile Card */}
           <Card>
             <CardHeader className="flex items-center justify-between">
@@ -278,65 +265,15 @@ export const UserProfile: React.FC = () => {
           {/* Danger zone actions */}
           <div className="flex flex-col sm:flex-row gap-3 pt-2">
             <Button
-              variant="outline"
-              onClick={handleLogout}
-              isLoading={isLoggingOut}
-              className="flex-1"
-            >
-              <LogOut className="w-4 h-4 mr-2" />
-              Sign Out
-            </Button>
-            <Button
               variant="danger"
               onClick={() => setDeleteAccountModal(true)}
-              disabled={isLoggingOut}
+              disabled={isDeletingAccount}
               className="flex-1"
             >
               <UserX className="w-4 h-4 mr-2" />
               Delete My Account
             </Button>
           </div>
-        </div>
-
-        {/* Right Column: JWT Info */}
-        <div className="lg:col-span-1">
-          <Card className="h-full">
-            <CardHeader className="flex items-center space-x-3">
-              <div className="p-2 bg-blue-500/20 text-blue-400 border border-blue-500/30 rounded-lg shadow-[0_0_15px_rgba(59,130,246,0.3)]">
-                <Key className="w-5 h-5 animate-pulse" />
-              </div>
-              <div>
-                <h3 className="text-sm font-semibold text-white tracking-wide uppercase">JWT Diagnostics</h3>
-                <p className="text-xxs text-gray-400">Current Access Token</p>
-              </div>
-            </CardHeader>
-            <CardBody className="space-y-5">
-              {/* Token Status */}
-              <div>
-                <span className="text-xxs font-bold text-gray-500 uppercase tracking-widest block mb-1">
-                  Token Status
-                </span>
-                <span className={`inline-flex items-center px-2 py-0.5 rounded text-xxs font-bold uppercase tracking-wider bg-blue-500/20 text-blue-300 border border-blue-500/30`}>
-                  Active & Verified
-                </span>
-              </div>
-
-
-
-              {/* Session ID */}
-              <div>
-                <span className="text-xxs font-bold text-gray-500 uppercase tracking-widest block mb-1 flex items-center">
-                  <ShieldAlert className="w-3 h-3 mr-1 text-gray-500" />
-                  Current Session ID
-                </span>
-                <span className="text-xs font-mono text-gray-400 break-all leading-tight block">
-                  {decodedTokenInfo?.session_id || 'Unknown Session'}
-                </span>
-              </div>
-
-
-            </CardBody>
-          </Card>
         </div>
       </div>
 

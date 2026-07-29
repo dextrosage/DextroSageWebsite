@@ -13,16 +13,16 @@ export const announcementService = {
   /**
    * Create an announcement. (ADMIN/SADMIN only)
    */
-  async createAnnouncement(title: string, content: string): Promise<{ status: string }> {
-    const response = await api.post<{ status: string }>('/announcements/admin', { title, content });
+  async createAnnouncement(title: string, content: string, videoLinks: string[]): Promise<{ status: string }> {
+    const response = await api.post<{ status: string }>('/announcements/admin', { title, content, video_links: videoLinks });
     return response.data;
   },
 
   /**
    * Update an announcement. (ADMIN/SADMIN only)
    */
-  async updateAnnouncement(id: string, title?: string, content?: string): Promise<{ status: string }> {
-    const response = await api.put<{ status: string }>(`/announcements/admin/${id}`, { title, content });
+  async updateAnnouncement(id: string, title?: string, content?: string, videoLinks?: string[]): Promise<{ status: string }> {
+    const response = await api.put<{ status: string }>(`/announcements/admin/${id}`, { title, content, video_links: videoLinks });
     return response.data;
   },
 

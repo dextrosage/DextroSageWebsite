@@ -77,14 +77,14 @@ export const Announcements: React.FC = () => {
     setIsModalOpen(true);
   };
 
-  const handleSubmit = async (title: string, content: string) => {
+  const handleSubmit = async (title: string, content: string, videoLinks: string[]) => {
     setIsSubmitting(true);
     try {
       if (editingAnnouncement) {
-        await announcementService.updateAnnouncement(editingAnnouncement.id, title, content);
+        await announcementService.updateAnnouncement(editingAnnouncement.id, title, content, videoLinks);
         showSuccess('Announcement updated successfully', 'Success');
       } else {
-        await announcementService.createAnnouncement(title, content);
+        await announcementService.createAnnouncement(title, content, videoLinks);
         showSuccess('Announcement published successfully', 'Success');
       }
       setIsModalOpen(false);

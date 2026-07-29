@@ -26,15 +26,15 @@ export const SessionCard: React.FC<SessionCardProps> = ({
           </div>
           <div className="min-w-0">
             <div className="flex items-center space-x-2">
-              <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Session ID</p>
+              <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Active Session</p>
               {isCurrent && (
                 <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xxs font-bold bg-blue-500/20 text-blue-300 border border-blue-500/30 uppercase tracking-wider scale-90 origin-left">
                   Current
                 </span>
               )}
             </div>
-            <p className="text-sm font-mono text-white truncate" title={session.session_id}>
-              {session.session_id}
+            <p className="text-sm font-medium text-white truncate" title={session.session_id}>
+              Connected Device
             </p>
           </div>
         </div>

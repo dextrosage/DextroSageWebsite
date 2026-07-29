@@ -2,7 +2,7 @@ import React from 'react';
 import type { User } from '../types';
 import { Card, CardBody, CardFooter } from './ui/Card';
 import { Button } from './ui/Button';
-import { User as UserIcon, Mail, Phone, Shield, UserCheck } from 'lucide-react';
+import { User as UserIcon, Mail, Phone, Shield } from 'lucide-react';
 
 interface UserCardProps {
   user: User;
@@ -54,10 +54,6 @@ export const UserCard: React.FC<UserCardProps> = ({
           <div className="flex items-center space-x-2">
             <Phone className="w-3.5 h-3.5 text-gray-500 flex-shrink-0" />
             <span>{user.phno || 'Not Registered'}</span>
-          </div>
-          <div className="flex items-center space-x-2">
-            <UserCheck className="w-3.5 h-3.5 text-gray-500 flex-shrink-0" />
-            <span className="font-mono text-gray-500 text-xxs truncate">ID: {user.user_id}</span>
           </div>
         </div>
       </CardBody>

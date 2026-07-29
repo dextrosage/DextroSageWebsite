@@ -35,7 +35,7 @@ const Navbar: React.FC<{
         <div className={`hidden md:flex gap-12 items-center px-10 py-3.5 rounded-full border transition-colors duration-500 ${
           scrolled ? 'bg-black/50 backdrop-blur-3xl border-white/10 shadow-[0_32px_64px_rgba(0,0,0,0.4)]' : 'bg-gradient-to-b from-white/10 to-white/5 backdrop-blur-2xl border-white/10 shadow-[0_32px_64px_rgba(0,0,0,0.2)]'
         }`}>
-          {['Services', 'Work', 'About', 'Contact'].map((item) => {
+          {['Services', 'Work', 'Contact'].map((item) => {
             const path = `#${item.toLowerCase()}`;
             return (
               <a key={item} href={path} className="text-[18px] font-[500] text-gray-300 hover:text-white transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[1px] after:bg-white hover:after:w-full after:transition-all after:duration-300">
@@ -45,15 +45,6 @@ const Navbar: React.FC<{
           })}
         </div>
         <div className="flex items-center gap-4">
-          <a href="mailto:dextrosage.support@gmail.com?subject=DextroSage%20Partnership%20Inquiry" className="hidden lg:flex items-center text-xs uppercase tracking-widest font-semibold text-gray-300 hover:text-white transition-colors px-2 drop-shadow-md">
-            Book a Demo
-          </a>
-          <button
-            onClick={() => navigate('/login')}
-            className="hidden sm:flex px-8 py-3 text-xs uppercase tracking-tight font-bold bg-white text-black hover:bg-gray-200 rounded-full transition-all shadow-[0_8px_24px_rgba(255,255,255,0.1)]"
-          >
-            Get Started
-          </button>
           <button
             onClick={() => navigate('/login')}
             className="px-8 py-3 text-xs uppercase tracking-tight font-bold bg-white/5 hover:bg-white/10 text-white backdrop-blur-xl rounded-full transition-all border border-white/10 shadow-[0_8px_24px_rgba(0,0,0,0.2)] flex items-center gap-2 group"
@@ -155,7 +146,7 @@ export const PublicLayout: React.FC = () => {
             className="fixed inset-0 z-40 bg-[#020617] pt-24 px-6 md:hidden overflow-y-auto"
           >
             <div className="flex flex-col gap-6 py-8">
-              {['Services', 'Work', 'About', 'Contact'].map((item) => {
+              {['Services', 'Work', 'Contact'].map((item) => {
                 const path = `#${item.toLowerCase()}`;
                 return (
                   <a 
@@ -170,9 +161,9 @@ export const PublicLayout: React.FC = () => {
               })}
               <button
                 onClick={() => { closeMobileMenu(); navigate('/login'); }}
-                className="text-center w-full py-4 mt-4 text-sm font-semibold bg-white text-black rounded-xl transition-all"
+                className="text-center w-full py-4 mt-4 text-sm font-semibold bg-white/5 hover:bg-white/10 text-white border border-white/10 rounded-xl transition-all"
               >
-                Get Started
+                Login
               </button>
             </div>
           </motion.div>

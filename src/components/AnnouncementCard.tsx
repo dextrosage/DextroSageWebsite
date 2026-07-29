@@ -66,6 +66,23 @@ export const AnnouncementCard: React.FC<Props> = ({ announcement, onEdit, onDele
           <h2 className="text-xl sm:text-2xl font-bold text-white mb-4 leading-tight tracking-tight">
             {announcement.title}
           </h2>
+          
+          {announcement.video_links && announcement.video_links.length > 0 && (
+            <div className="space-y-4 mb-6">
+              {announcement.video_links.map((link, idx) => (
+                <div key={idx} className="relative w-full aspect-video rounded-xl overflow-hidden border border-white/10 shadow-lg bg-black/40">
+                  <iframe
+                    src={link}
+                    title={`YouTube video player - ${idx}`}
+                    className="absolute inset-0 w-full h-full border-0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowFullScreen
+                  ></iframe>
+                </div>
+              ))}
+            </div>
+          )}
+
           <div className="text-gray-300 whitespace-pre-wrap break-words text-sm sm:text-base leading-relaxed">
             {announcement.content}
           </div>

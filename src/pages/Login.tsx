@@ -38,6 +38,7 @@ export const Login: React.FC = () => {
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [role, setRole] = useState<UserRole>('USER');
   const [isLoading, setIsLoading] = useState(false);
 
@@ -487,14 +488,22 @@ export const Login: React.FC = () => {
                     <Input
                       label="Password"
                       id="password"
-                      type="password"
+                      type={showPassword ? 'text' : 'password'}
                       placeholder="••••••••••••"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
-                      className="pl-12 bg-white/5 border-white/10 text-white placeholder:text-gray-500 rounded-xl h-12"
+                      className="pl-12 pr-10 bg-white/5 border-white/10 text-white placeholder:text-gray-500 rounded-xl h-12"
                       disabled={isLoading}
                       required
                     />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="absolute inset-y-0 right-0 pr-3 flex items-center mt-6 text-gray-400 hover:text-white transition-colors focus:outline-none"
+                      disabled={isLoading}
+                    >
+                      {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                    </button>
                   </div>
 
                   {/* Sign In Button */}
