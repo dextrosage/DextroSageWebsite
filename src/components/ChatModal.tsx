@@ -133,8 +133,12 @@ export const ChatModal: React.FC<ChatModalProps> = ({
   if (!isOpen || !targetUser) return null;
 
   return (
-    <div className="fixed bottom-0 right-0 sm:bottom-4 sm:right-4 z-50 flex flex-col animate-in slide-in-from-bottom-8 duration-300">
-      <div className="relative w-screen h-[100dvh] sm:w-[380px] sm:h-[550px] bg-[#020617]/95 backdrop-blur-2xl sm:rounded-2xl border-t sm:border border-white/10 shadow-2xl flex flex-col overflow-hidden">
+    <div className="fixed inset-0 z-50 flex justify-end">
+      {/* Backdrop */}
+      <div className="absolute inset-0 bg-black/40 backdrop-blur-sm animate-in fade-in duration-300" onClick={onClose} />
+      
+      {/* Drawer */}
+      <div className="relative w-full sm:w-[450px] h-full bg-[#020617] border-l border-white/10 shadow-2xl flex flex-col overflow-hidden animate-in slide-in-from-right duration-300">
         {/* Header */}
         <div className="flex items-center justify-between px-4 py-3 bg-gradient-to-r from-blue-900/40 to-black/40 border-b border-white/10 relative z-10 backdrop-blur-md shadow-md">
           <div className="flex items-center gap-3">
