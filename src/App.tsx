@@ -17,6 +17,7 @@ import { UserProfile } from './pages/user/Profile';
 import { PublicLayout } from './layouts/PublicLayout';
 import { Landing } from './pages/Landing';
 import { Announcements } from './pages/Announcements';
+import { Connections } from './pages/user/Connections';
 import { ScrollToTop } from './components/ScrollToTop';
 
 export const App: React.FC = () => {
@@ -45,6 +46,7 @@ export const App: React.FC = () => {
               <Route path="member/:userId" element={<SuperAdminMemberSessions />} />
               <Route path="profile" element={<SuperAdminProfile />} />
               <Route path="announcements" element={<Announcements />} />
+              <Route path="connections" element={<Connections />} />
             </Route>
 
             {/* Admin Routes */}
@@ -59,6 +61,7 @@ export const App: React.FC = () => {
               <Route index element={<AdminDashboard />} />
               <Route path="profile" element={<AdminProfile />} />
               <Route path="announcements" element={<Announcements />} />
+              <Route path="connections" element={<Connections />} />
             </Route>
 
             {/* Standard User Routes */}
@@ -73,6 +76,7 @@ export const App: React.FC = () => {
               <Route index element={<UserDashboard />} />
               <Route path="profile" element={<UserProfile />} />
               <Route path="announcements" element={<Announcements />} />
+              <Route path="connections" element={<Connections />} />
             </Route>
 
             {/* Catch-all fallback redirects */}

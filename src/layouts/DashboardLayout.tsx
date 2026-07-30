@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-import { LayoutDashboard, User, LogOut, Menu, X, Shield, Bell } from 'lucide-react';
+import { LayoutDashboard, User, LogOut, Menu, X, Shield, Bell, Users } from 'lucide-react';
 import { Loader } from '../components/ui/Loader';
 import { BackgroundParticles } from '../components/ui/BackgroundParticles';
+import { NotificationsDropdown } from '../components/NotificationsDropdown';
 
 export const DashboardLayout: React.FC = () => {
   const { user, role, logout, isLoading } = useAuth();
@@ -46,6 +47,12 @@ export const DashboardLayout: React.FC = () => {
       name: 'Newsroom',
       path: role === 'SADMIN' ? '/sadmin/announcements' : (role === 'ADMIN' ? '/admin/announcements' : '/user/announcements'),
       icon: <Bell className="w-5 h-5" />,
+      end: false
+    },
+    {
+      name: 'Connections',
+      path: role === 'SADMIN' ? '/sadmin/connections' : (role === 'ADMIN' ? '/admin/connections' : '/user/connections'),
+      icon: <Users className="w-5 h-5" />,
       end: false
     }
   ];
@@ -155,7 +162,7 @@ export const DashboardLayout: React.FC = () => {
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col min-w-0 h-screen relative z-10 overflow-hidden">
         {/* Top Navbar */}
-        <header className="bg-[#020617]/60 backdrop-blur-md border-b border-white/5 h-20 flex items-center justify-between px-4 md:px-8 shadow-sm flex-shrink-0">
+        <header className="bg-[#020617]/60 backdrop-blur-md border-b border-white/5 h-20 flex items-center justify-between px-4 md:px-8 shadow-sm flex-shrink-0 relative z-50">
           <div className="flex items-center">
             {/* Mobile menu toggle */}
             <button
@@ -167,6 +174,9 @@ export const DashboardLayout: React.FC = () => {
             <div className="font-bold text-gray-200 tracking-[0.1em] uppercase text-sm md:text-base">
               {role === 'SADMIN' ? 'Super Admin Terminal' : role === 'ADMIN' ? 'Command Center' : 'User Environment'}
             </div>
+          </div>
+          <div className="flex items-center gap-4">
+            <NotificationsDropdown />
           </div>
         </header>
 
