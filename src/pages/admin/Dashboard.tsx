@@ -13,7 +13,7 @@ import { UserPlus, RefreshCw, Users } from 'lucide-react';
 
 export const AdminDashboard: React.FC = () => {
   const { signup, user } = useAuth();
-  const { showSuccess, showApiError } = useToast();
+  const { showApiError } = useToast();
 
   const [members, setMembers] = useState<User[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -26,11 +26,6 @@ export const AdminDashboard: React.FC = () => {
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [selectedUserProfile, setSelectedUserProfile] = useState<any>(null);
   const [isLoadingProfile, setIsLoadingProfile] = useState(false);
-
-  // User Deletion States
-  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
-  const [userToDelete, setUserToDelete] = useState<User | null>(null);
-  const [isDeleting, setIsDeleting] = useState(false);
 
   // SignUp States
   const [signUpModalOpen, setSignUpModalOpen] = useState(false);
@@ -89,33 +84,6 @@ export const AdminDashboard: React.FC = () => {
   const handleBackToDirectory = () => {
     setSelectedUser(null);
     setSelectedUserProfile(null);
-  };
-
-  // Handle delete user modal opening
-  const triggerDeleteConfirm = (member: User) => {
-    if (member.role === 'ADMIN' || member.role === 'SADMIN') {
-      showApiError(new Error('Permission denied'), 'Admins cannot delete other Admins or Super Admins.');
-      return;
-    }
-    setUserToDelete(member);
-    setDeleteModalOpen(true);
-  };
-
-  const handleDeleteConfirm = async () => {
-    if (!userToDelete) return;
-    setIsDeleting(true);
-    try {
-      await adminService.deleteMember(userToDelete.user_id);
-      showSuccess(`Account belonging to ${userToDelete.name} was successfully deleted.`, 'User Deleted');
-      setDeleteModalOpen(false);
-      setUserToDelete(null);
-      // Reload list
-      fetchMembers(true, true);
-    } catch (err) {
-      showApiError(err, 'Failed to delete user.');
-    } finally {
-      setIsDeleting(false);
-    }
   };
 
   // Handle register user
@@ -238,7 +206,6 @@ export const AdminDashboard: React.FC = () => {
               <UserCard
                 key={member.user_id}
                 user={member}
-                onDelete={() => triggerDeleteConfirm(member)}
                 onClick={() => handleUserCardClick(member)}
               />
             ))}
@@ -258,22 +225,6 @@ export const AdminDashboard: React.FC = () => {
           </Button>
         </div>
       )}
-
-      {/* Confirmation delete modal */}
-      <Modal
-        isOpen={deleteModalOpen}
-        onClose={() => !isDeleting && setDeleteModalOpen(false)}
-        title="Delete User Account?"
-        confirmText="Delete User"
-        onConfirm={handleDeleteConfirm}
-        isLoading={isDeleting}
-        variant="danger"
-      >
-        <p className="text-sm text-gray-400">
-          Are you sure you want to delete the account for <strong className="text-white">{userToDelete?.name}</strong>?
-          This action will permanently revoke their credentials and immediately purge all their active login sessions. This cannot be undone.
-        </p>
-      </Modal>
 
       {/* Register user modal */}
       <Modal
