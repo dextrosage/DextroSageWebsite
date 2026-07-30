@@ -138,9 +138,9 @@ export const ChatModal: React.FC<ChatModalProps> = ({
       
       <div className="relative w-full h-full sm:h-[600px] max-w-lg bg-[#020617] sm:rounded-2xl border border-white/10 shadow-2xl flex flex-col overflow-hidden">
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 bg-black/40 border-b border-white/5">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-400 font-bold border border-blue-500/30">
+        <div className="flex items-center justify-between px-6 py-4 bg-gradient-to-r from-blue-900/20 to-transparent border-b border-white/5 relative z-10 backdrop-blur-md shadow-lg">
+          <div className="flex items-center gap-4">
+            <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500/30 to-blue-600/10 flex items-center justify-center text-blue-400 font-bold border border-blue-500/40 shadow-inner">
               {targetUser.name.charAt(0).toUpperCase()}
             </div>
             <div>
@@ -179,10 +179,10 @@ export const ChatModal: React.FC<ChatModalProps> = ({
               return (
                 <div key={idx} className={`flex ${isMine ? 'justify-end' : 'justify-start'}`}>
                   <div 
-                    className={`max-w-[75%] rounded-2xl px-4 py-2 ${
+                    className={`max-w-[75%] rounded-2xl px-5 py-3 shadow-md ${
                       isMine 
-                        ? 'bg-blue-600 text-white rounded-br-sm' 
-                        : 'bg-white/10 text-gray-100 rounded-bl-sm'
+                        ? 'bg-gradient-to-br from-blue-500 to-blue-600 text-white rounded-br-sm shadow-blue-500/20 border border-blue-400/20' 
+                        : 'bg-white/5 text-gray-100 rounded-bl-sm backdrop-blur-md border border-white/10'
                     }`}
                   >
                     <p className="text-sm break-words">{msg.text}</p>
@@ -198,19 +198,19 @@ export const ChatModal: React.FC<ChatModalProps> = ({
         </div>
 
         {/* Input area */}
-        <form onSubmit={handleSend} className="p-4 bg-black/40 border-t border-white/5">
-          <div className="flex items-center gap-2">
+        <form onSubmit={handleSend} className="p-4 bg-black/60 backdrop-blur-md border-t border-white/10 relative z-10">
+          <div className="flex items-center gap-3">
             <input
               type="text"
               value={inputText}
               onChange={(e) => setInputText(e.target.value)}
               placeholder="Type a message..."
-              className="flex-1 bg-white/5 border border-white/10 rounded-full px-4 py-2 text-sm text-white placeholder:text-gray-500 focus:outline-none focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/50 transition-all"
+              className="flex-1 bg-white/5 border border-white/10 rounded-full px-5 py-3 text-sm text-white placeholder:text-gray-500 focus:outline-none focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/50 transition-all shadow-inner"
             />
             <Button
               type="submit"
               disabled={!inputText.trim() || isSending}
-              className="rounded-full w-10 h-10 p-0 flex items-center justify-center bg-blue-600 hover:bg-blue-500 flex-shrink-0"
+              className="rounded-full w-12 h-12 p-0 flex items-center justify-center bg-gradient-to-br from-blue-500 to-blue-600 hover:from-blue-400 hover:to-blue-500 flex-shrink-0 shadow-lg shadow-blue-500/20 transition-all active:scale-95"
             >
               {isSending ? (
                 <Loader2 className="w-4 h-4 animate-spin text-white" />

@@ -162,7 +162,7 @@ export const DashboardLayout: React.FC = () => {
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col min-w-0 h-screen relative z-10 overflow-hidden">
         {/* Top Navbar */}
-        <header className="bg-[#020617]/60 backdrop-blur-md border-b border-white/5 h-20 flex items-center justify-between px-4 md:px-8 shadow-sm flex-shrink-0">
+        <header className="bg-[#020617]/60 backdrop-blur-md border-b border-white/5 h-20 flex items-center justify-between px-4 md:px-8 shadow-sm flex-shrink-0 relative z-50">
           <div className="flex items-center">
             {/* Mobile menu toggle */}
             <button
