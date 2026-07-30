@@ -35,8 +35,8 @@ const Navbar: React.FC<{
         <div className={`hidden md:flex gap-12 items-center px-10 py-3.5 rounded-full border transition-colors duration-500 ${
           scrolled ? 'bg-black/50 backdrop-blur-3xl border-white/10 shadow-[0_32px_64px_rgba(0,0,0,0.4)]' : 'bg-gradient-to-b from-white/10 to-white/5 backdrop-blur-2xl border-white/10 shadow-[0_32px_64px_rgba(0,0,0,0.2)]'
         }`}>
-          {['Services', 'Work', 'Contact'].map((item) => {
-            const path = `#${item.toLowerCase()}`;
+          {['About Us', 'Services', 'Work', 'Contact'].map((item) => {
+            const path = item === 'About Us' ? '#about' : `#${item.toLowerCase()}`;
             return (
               <a key={item} href={path} className="text-[18px] font-[500] text-gray-300 hover:text-white transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[1px] after:bg-white hover:after:w-full after:transition-all after:duration-300">
                 {item}
@@ -146,8 +146,8 @@ export const PublicLayout: React.FC = () => {
             className="fixed inset-0 z-40 bg-[#020617] pt-24 px-6 md:hidden overflow-y-auto"
           >
             <div className="flex flex-col gap-6 py-8">
-              {['Services', 'Work', 'Contact'].map((item) => {
-                const path = `#${item.toLowerCase()}`;
+              {['About Us', 'Services', 'Work', 'Contact'].map((item) => {
+                const path = item === 'About Us' ? '#about' : `#${item.toLowerCase()}`;
                 return (
                   <a 
                     key={item} 

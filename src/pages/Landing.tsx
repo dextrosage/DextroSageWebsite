@@ -66,8 +66,29 @@ export const Landing: React.FC = () => {
         </div>
       </section>
 
+      {/* 2.5 ABOUT US */}
+      <section id="about" className="pt-32 pb-16 bg-[#FAFAFA] text-black z-20 relative rounded-t-[48px]">
+        <div className="max-w-7xl mx-auto px-8 lg:px-12">
+          <div className="flex flex-col lg:flex-row gap-12 lg:gap-24 items-start">
+            <div className="lg:w-[40%] flex flex-col items-start z-20">
+              <div className="text-sm font-extrabold text-blue-600 uppercase tracking-tight mb-12">
+                About Us
+              </div>
+              <h2 className="text-[48px] lg:text-[64px] font-[300] leading-[1.2] tracking-tighter text-black">
+                Welcome to DextroSage.
+              </h2>
+            </div>
+            <div className="lg:w-[60%] z-20 lg:pt-16">
+              <p className="text-[22px] lg:text-[28px] text-gray-700 leading-[1.7] font-[300] max-w-2xl">
+                DextroSage is a club to exchange knowledge related to technology and to provide on demand technological services.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* 3. CAPABILITIES */}
-      <section id="services" className="pt-32 lg:pt-48 pb-16 lg:pb-24 bg-[#FAFAFA] text-black z-20 relative rounded-t-[48px]">
+      <section id="services" className="py-16 lg:py-24 bg-[#FAFAFA] text-black z-20 relative">
         <div className="max-w-7xl mx-auto px-8 lg:px-12">
           
           <div className="flex flex-col lg:flex-row justify-between items-start gap-16 mb-32">
@@ -383,6 +404,7 @@ export const Landing: React.FC = () => {
               <h4 className="text-white font-bold text-[16px] mb-6">Discover</h4>
               <ul className="space-y-4 text-gray-400 text-[15px]">
                 <li><a href="#hero" className="hover:text-white transition-colors">Home</a></li>
+                <li><a href="#about" className="hover:text-white transition-colors">About Us</a></li>
                 <li><a href="#services" className="hover:text-white transition-colors">Services</a></li>
                 <li><a href="#work" className="hover:text-white transition-colors">Work</a></li>
               </ul>
