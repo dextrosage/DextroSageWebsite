@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Bell, CheckCircle } from 'lucide-react';
+import { useLocation } from 'react-router-dom';
 import { api } from '../services/api';
 import { useAuth } from '../contexts/AuthContext';
 
@@ -13,6 +14,7 @@ export interface Notification {
 
 export const NotificationsDropdown: React.FC = () => {
   const { user } = useAuth();
+  const location = useLocation();
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -27,9 +29,9 @@ export const NotificationsDropdown: React.FC = () => {
       }
     };
     fetchNotifications();
-    const interval = setInterval(fetchNotifications, 20000); // poll every 20s
+    const interval = setInterval(fetchNotifications, 10000); // poll every 10s
     return () => clearInterval(interval);
-  }, [user, isOpen]); // refresh when opened
+  }, [user, isOpen, location.pathname]); // refresh when opened or when tab changes
 
   const unreadCount = notifications.filter(n => !n.is_read).length;
 
