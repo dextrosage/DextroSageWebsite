@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { createPortal } from 'react-dom';
 import { X, Send, Loader2 } from 'lucide-react';
 import { Button } from './ui/Button';
 import type { User, ChatMessage } from '../types';
@@ -21,6 +22,7 @@ export const ChatModal: React.FC<ChatModalProps> = ({
   const [inputText, setInputText] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isSending, setIsSending] = useState(false);
+  const [isClosing, setIsClosing] = useState(false);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -130,15 +132,24 @@ export const ChatModal: React.FC<ChatModalProps> = ({
     }
   };
 
-  if (!isOpen || !targetUser) return null;
+  const handleClose = () => {
+    setIsClosing(true);
+    setTimeout(() => {
+      setIsClosing(false);
+      onClose();
+    }, 250); // Match animation duration
+  };
 
-  return (
-    <div className="fixed inset-0 z-50 flex justify-end">
-      {/* Backdrop */}
-      <div className="absolute inset-0 bg-black/40 backdrop-blur-sm animate-in fade-in duration-300" onClick={onClose} />
-      
+  if ((!isOpen && !isClosing) || !targetUser) return null;
+
+  return createPortal(
+    <div className="fixed bottom-0 right-0 sm:right-6 z-[100] flex flex-col pointer-events-none">
       {/* Drawer */}
-      <div className="relative w-full sm:w-[450px] h-full bg-[#020617] border-l border-white/10 shadow-2xl flex flex-col overflow-hidden animate-in slide-in-from-right duration-300">
+      <div 
+        className={`relative w-screen h-[50vh] sm:w-[400px] sm:h-[60vh] bg-[#020617] border border-white/10 sm:border-b-0 sm:rounded-t-2xl shadow-[0_-10px_40px_-15px_rgba(0,0,0,0.5)] flex flex-col overflow-hidden transition-transform duration-300 ease-in-out pointer-events-auto ${
+          isOpen && !isClosing ? 'translate-y-0' : 'translate-y-full'
+        }`}
+      >
         {/* Header */}
         <div className="flex items-center justify-between px-4 py-3 bg-gradient-to-r from-blue-900/40 to-black/40 border-b border-white/10 relative z-10 backdrop-blur-md shadow-md">
           <div className="flex items-center gap-3">
@@ -151,7 +162,7 @@ export const ChatModal: React.FC<ChatModalProps> = ({
             </div>
           </div>
           <button
-            onClick={onClose}
+            onClick={handleClose}
             className="p-2 text-gray-400 hover:text-white rounded-full hover:bg-white/5 transition-colors"
           >
             <X className="w-5 h-5" />
@@ -223,6 +234,7 @@ export const ChatModal: React.FC<ChatModalProps> = ({
           </div>
         </form>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 };
