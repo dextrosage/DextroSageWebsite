@@ -43,10 +43,10 @@ export const adminService = {
   },
 
   /**
-   * Deletes a user account (admin endpoint).
+   * Deletes own admin account completely (admin endpoint).
    */
-  async deleteMember(userId: string) {
-    const response = await api.delete<{ status: string }>(`/admin/delete/${userId}/members`);
+  async deleteMember(_userId?: string) {
+    const response = await api.delete<{ status: string }>('/admin/delete/members');
     return response.data;
   },
 
