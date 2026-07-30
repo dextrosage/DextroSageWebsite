@@ -31,8 +31,6 @@ export const AdminProfile: React.FC = () => {
   const [deleteAllModal, setDeleteAllModal] = useState(false);
   const [isDeletingAll, setIsDeletingAll] = useState(false);
 
-  const [deleteAccountModal, setDeleteAccountModal] = useState(false);
-  const [isDeletingAccount, setIsDeletingAccount] = useState(false);
 
   // Fetch active sessions for the current admin
   const fetchSessions = useCallback(async (quiet = false) => {
@@ -113,20 +111,6 @@ export const AdminProfile: React.FC = () => {
     } catch (err) {
       showApiError(err, 'Failed to revoke all sessions.');
       setIsDeletingAll(false);
-    }
-  };
-
-  // Handle Delete Own Account
-  const handleDeleteAccountConfirm = async () => {
-    setIsDeletingAccount(true);
-    try {
-      await adminService.deleteMember();
-      showSuccess('Your administrator account has been deleted.', 'Account Deleted');
-      setDeleteAccountModal(false);
-      await logout();
-    } catch (err) {
-      showApiError(err, 'Failed to delete account.');
-      setIsDeletingAccount(false);
     }
   };
 
@@ -263,16 +247,14 @@ export const AdminProfile: React.FC = () => {
             </CardBody>
           </Card>
 
-          {/* Logout & Delete Actions */}
+          {/* Logout Actions */}
           <div className="flex flex-col sm:flex-row gap-3 pt-2">
             <Button
-              variant="danger"
-              onClick={() => setDeleteAccountModal(true)}
-              disabled={isDeletingAccount}
+              variant="outline"
+              onClick={logout}
               className="w-full sm:w-auto px-6"
             >
-              <Trash2 className="w-4 h-4 mr-2" />
-              Delete My Account
+              Sign Out
             </Button>
           </div>
         </div>
@@ -311,21 +293,7 @@ export const AdminProfile: React.FC = () => {
         </p>
       </Modal>
 
-      {/* Delete own account */}
-      <Modal
-        isOpen={deleteAccountModal}
-        onClose={() => !isDeletingAccount && setDeleteAccountModal(false)}
-        title="Delete Your Admin Account?"
-        confirmText="Delete Account"
-        onConfirm={handleDeleteAccountConfirm}
-        isLoading={isDeletingAccount}
-        variant="danger"
-      >
-        <p className="text-sm text-gray-400">
-          Are you sure you want to permanently delete your <strong className="text-white">Admin</strong> account?
-          This will delete your credentials, profile details, and terminate all active sessions. This action cannot be undone.
-        </p>
-      </Modal>
+
     </div>
   );
 };
