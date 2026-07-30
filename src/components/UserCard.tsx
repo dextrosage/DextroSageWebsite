@@ -142,41 +142,41 @@ export const UserCard: React.FC<UserCardProps> = ({
         </CardBody>
 
         {/* Footer Actions */}
-        <CardFooter className="flex items-center gap-2 pt-3 pb-3 border-t border-white/5 bg-black/20">
+        <CardFooter className="flex flex-wrap items-center gap-2 pt-3 pb-3 border-t border-white/5 bg-black/20">
           {!isSelf && (
             <>
               {isConnected && (
-                <div className="flex w-full gap-2">
-                  <Button variant="primary" size="sm" className="flex-1 text-xs" onClick={handleChat}>
+                <>
+                  <Button variant="primary" size="sm" className="flex-1 min-w-[80px] text-xs" onClick={handleChat}>
                     <MessageSquare className="w-3.5 h-3.5 mr-1.5" />
                     Chat
                   </Button>
-                  <Button variant="outline" size="sm" className="flex-1 text-xs text-red-400 border-red-500/30 hover:bg-red-500/10" onClick={handleRemove} isLoading={isActioning}>
+                  <Button variant="outline" size="sm" className="flex-1 min-w-[80px] text-xs text-red-400 border-red-500/30 hover:bg-red-500/10" onClick={handleRemove} isLoading={isActioning}>
                     <XCircle className="w-3.5 h-3.5 mr-1.5" />
                     Disconnect
                   </Button>
-                </div>
+                </>
               )}
               {hasSentRequest && (
-                <Button variant="outline" size="sm" className="flex-1 text-xs text-yellow-400 border-yellow-500/30" disabled>
+                <Button variant="outline" size="sm" className="flex-1 min-w-[80px] text-xs text-yellow-400 border-yellow-500/30" disabled>
                   <Clock className="w-3.5 h-3.5 mr-1.5" />
                   Requested
                 </Button>
               )}
               {hasPendingRequest && (
-                <div className="flex w-full gap-2">
-                  <Button variant="primary" size="sm" className="flex-1 text-xs" onClick={handleAccept} isLoading={isActioning}>
+                <>
+                  <Button variant="primary" size="sm" className="flex-1 min-w-[80px] text-xs" onClick={handleAccept} isLoading={isActioning}>
                     <CheckCircle className="w-3.5 h-3.5 mr-1.5" />
                     Accept
                   </Button>
-                  <Button variant="outline" size="sm" className="flex-1 text-xs" onClick={handleDecline} isLoading={isActioning}>
+                  <Button variant="outline" size="sm" className="flex-1 min-w-[80px] text-xs" onClick={handleDecline} isLoading={isActioning}>
                     <XCircle className="w-3.5 h-3.5 mr-1.5" />
                     Decline
                   </Button>
-                </div>
+                </>
               )}
               {!isConnected && !hasSentRequest && !hasPendingRequest && (
-                <Button variant="outline" size="sm" className="flex-1 text-xs" onClick={handleConnect} isLoading={isActioning}>
+                <Button variant="outline" size="sm" className="flex-1 min-w-[80px] text-xs" onClick={handleConnect} isLoading={isActioning}>
                   <UserPlus className="w-3.5 h-3.5 mr-1.5" />
                   Connect
                 </Button>
@@ -188,7 +188,7 @@ export const UserCard: React.FC<UserCardProps> = ({
             <Button
               variant="outline"
               size="sm"
-              className="flex-1 text-xs"
+              className="flex-1 min-w-[80px] text-xs"
               onClick={(e) => {
                 e.stopPropagation();
                 onViewSessions();
@@ -201,7 +201,7 @@ export const UserCard: React.FC<UserCardProps> = ({
             <Button
               variant="danger"
               size="sm"
-              className="flex-1 text-xs"
+              className="flex-1 min-w-[80px] text-xs"
               onClick={(e) => {
                 e.stopPropagation();
                 onDelete();
