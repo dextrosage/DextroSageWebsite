@@ -6,6 +6,16 @@ export interface User {
   phno: string;
   email: string;
   role: UserRole;
+  connected_users?: string[];
+  pending_connections?: string[];
+  sent_requests?: string[];
+}
+
+export interface ChatMessage {
+  id?: string;
+  sender_id: string;
+  text: string;
+  timestamp: string;
 }
 
 export interface Session {

@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-import { LayoutDashboard, User, LogOut, Menu, X, Shield, Bell } from 'lucide-react';
+import { LayoutDashboard, User, LogOut, Menu, X, Shield, Bell, Users } from 'lucide-react';
 import { Loader } from '../components/ui/Loader';
 import { BackgroundParticles } from '../components/ui/BackgroundParticles';
+import { NotificationsDropdown } from '../components/NotificationsDropdown';
 
 export const DashboardLayout: React.FC = () => {
   const { user, role, logout, isLoading } = useAuth();
@@ -46,6 +47,12 @@ export const DashboardLayout: React.FC = () => {
       name: 'Newsroom',
       path: role === 'SADMIN' ? '/sadmin/announcements' : (role === 'ADMIN' ? '/admin/announcements' : '/user/announcements'),
       icon: <Bell className="w-5 h-5" />,
+      end: false
+    },
+    {
+      name: 'Connections',
+      path: role === 'SADMIN' ? '/sadmin/connections' : (role === 'ADMIN' ? '/admin/connections' : '/user/connections'),
+      icon: <Users className="w-5 h-5" />,
       end: false
     }
   ];
@@ -167,6 +174,9 @@ export const DashboardLayout: React.FC = () => {
             <div className="font-bold text-gray-200 tracking-[0.1em] uppercase text-sm md:text-base">
               {role === 'SADMIN' ? 'Super Admin Terminal' : role === 'ADMIN' ? 'Command Center' : 'User Environment'}
             </div>
+          </div>
+          <div className="flex items-center gap-4">
+            <NotificationsDropdown />
           </div>
         </header>
 
